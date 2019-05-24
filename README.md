@@ -1,15 +1,11 @@
-#Title
-short description
-
 import arcade
-
 
 WIDTH = 640
 HEIGHT = 480
 player_x = 100
 player_y = 100
-radius = 25
-fish = arcade.Sprite("images/fish.png", 0.5)
+fish = arcade.Sprite("images/fish.png", 0.1)
+playerlist = None
 
 # controls
 up_pressed  = False
@@ -17,16 +13,22 @@ down_pressed = False
 right_pressed = False
 left_pressed = False
 
+playerlist = arcade.SpriteList()
+
 def update(delta_time):
-    global player_y
-    global player_x
+    global player_y, player_x
     if up_pressed:
         player_y += 7
-    if down_pressed:
+    elif down_pressed:
         player_y -= 7
-    if right_pressed:
+    elif right_pressed:
         player_x += 7
-    if left_pressed:
+    elif left_pressed:
+        player_x -= 7
+
+    if player_x == 0:
+        player_x += 7
+    elif player_x == WIDTH:
         player_x -= 7
 
 def on_draw():
@@ -36,13 +38,12 @@ def on_draw():
     arcade.draw_xywh_rectangle_filled(0, 0, 640, 50, arcade.color.LIGHT_BROWN)
     fish.center_x = player_x
     fish.center_y = player_y
-    
+    playerlist.append(fish)
+    playerlist.draw()
+
 
 def on_key_press(key, modifiers):
-    global up_pressed
-    global down_pressed
-    global right_pressed
-    global left_pressed
+    global up_pressed, down_pressed, right_pressed, left_pressed
     if key == arcade.key.UP:
         up_pressed = True
     if key == arcade.key.DOWN:
@@ -53,10 +54,7 @@ def on_key_press(key, modifiers):
         left_pressed = True
 
 def on_key_release(key, modifiers):
-    global up_pressed
-    global down_pressed
-    global right_pressed
-    global left_pressed
+    global up_pressed, down_pressed, right_pressed, left_pressed
     if up_pressed:
         up_pressed = False
     if down_pressed:
