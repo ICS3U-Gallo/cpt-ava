@@ -1,0 +1,131 @@
+import arcade
+
+WIDTH = 640
+HEIGHT = 480
+player_x = 100
+player_y = 100
+fish = arcade.Sprite("images/fish.png", 0.1)
+playerlist = None
+current_screen = "menu"
+
+buttonheight = 150
+buttonwidth = 75
+buttoncolour = arcade.color.BLUEBERRY
+
+button1 = [WIDTH/2, HEIGHT/2, buttonheight, buttonwidth, buttoncolour]
+button2 = [WIDTH / 2, HEIGHT / 2 -100, buttonheight, buttonwidth, buttoncolour]
+button3 = [WIDTH / 2, HEIGHT / 2 + 100, buttonheight, buttonwidth, buttoncolour]
+
+highscore = "300"
+
+fish_count = 10
+
+# controls
+up_pressed  = False
+down_pressed = False
+right_pressed = False
+left_pressed = False
+
+playerlist = arcade.SpriteList()
+
+def update(delta_time):
+    global player_y, player_x, down_pressed, up_pressed
+    if up_pressed:
+        player_y += 9
+    elif down_pressed:
+        player_y -= 9
+    elif right_pressed:
+        player_x += 9
+    elif left_pressed:
+        player_x -= 9
+
+    if player_x == 0:
+        player_x += 7
+    elif player_x == WIDTH:
+        player_x -= 7
+    elif player_y ==50:
+        player_y += 100
+
+def on_draw():
+    arcade.start_render()
+    # Draw in here...
+    if current_screen == "menu":
+        global button1, button2, button3, fish_count
+        arcade.draw_rectangle_filled(button1[0], button1[1], button1[2], button1[3], button1[4])
+        arcade.draw_text("Start", WIDTH / 2 - 30, HEIGHT / 2 - 10, arcade.color.BLACK, 18)
+
+        arcade.draw_rectangle_filled(button2[0], button2[1], button2[2], button2[3], button2[4])
+        arcade.draw_text("Instructions", WIDTH / 2 - 70, HEIGHT / 2 - 110, arcade.color.BLACK, 18)
+
+        arcade.draw_rectangle_filled(button3[0], button3[1], button3[2], button3[3], button3[4])
+        arcade.draw_text("High Score:", WIDTH / 2 - 66, HEIGHT / 2 + 100, arcade.color.BLACK, 18)
+
+        arcade.draw_text(highscore, WIDTH / 2 - 25, HEIGHT / 2 + 70, arcade.color.BLACK, 18)
+
+
+    elif current_screen == "game":
+        arcade.draw_xywh_rectangle_filled(0, 0, 640, 480, arcade.color.SKY_BLUE)
+
+        arcade.draw_xywh_rectangle_filled(0, 0, 640, 50, arcade.color.LIGHT_BROWN)
+
+        arcade.draw_xywh_rectangle_filled(0,HEIGHT - 35, 65, 35, arcade.color.BLACK)
+
+        arcade.draw_text("Menu", 10, 455, arcade.color.GRAY_BLUE, 12)
+
+        fish.center_x = player_x
+        fish.center_y = player_y
+        playerlist.append(fish)
+        playerlist.draw()
+
+
+def on_key_press(key, modifiers):
+    global up_pressed, down_pressed, right_pressed, left_pressed
+    if key == arcade.key.UP:
+        up_pressed = True
+    if key == arcade.key.DOWN:
+        down_pressed = True
+    if key == arcade.key.RIGHT:
+        right_pressed = True
+    if key == arcade.key.LEFT:
+        left_pressed = True
+
+def on_key_release(key, modifiers):
+    global up_pressed, down_pressed, right_pressed, left_pressed
+    if up_pressed:
+        up_pressed = False
+    if down_pressed:
+        down_pressed = False
+    if right_pressed:
+        right_pressed = False
+    if left_pressed:
+        left_pressed = False
+
+    pass
+
+
+def on_mouse_press(x, y, button, modifiers):
+    global current_screen, button1, buttonwidth, buttonheight
+    if x > button1[0] - buttonheight/2 and x < button1[0] + buttonheight/2 and y > button1[1] - buttonwidth/2 and y < button1[1] + buttonwidth/2:
+        current_screen = "game"
+        print("hi")
+    if x > 0 and x < 65 and y > 445 and y < 460:
+        current_screen = "menu"
+        print("bye")
+
+def setup():
+    arcade.open_window(WIDTH, HEIGHT, "My Arcade Game")
+    arcade.set_background_color(arcade.color.WHITE)
+    arcade.schedule(update, 1/60)
+
+    # Override arcade window methods
+    window = arcade.get_window()
+    window.on_draw = on_draw
+    window.on_key_press = on_key_press
+    window.on_key_release = on_key_release
+    window.on_mouse_press = on_mouse_press
+
+    arcade.run()
+
+
+if __name__ == '__main__':
+    setup()
