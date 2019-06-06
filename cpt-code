@@ -1,10 +1,13 @@
 import arcade
+import random
 
 WIDTH = 640
 HEIGHT = 480
 player_x = 100
 player_y = 100
-fish = arcade.Sprite("images/fish.png", 0.1)
+fish = arcade.Sprite("C:\\Users\\avash\\venv\\Images\\fish.png", 0.1)
+enemyfish = arcade.Sprite("C:\\Users\\avash\\Documents\enemy.png", 0.1)
+
 playerlist = None
 current_screen = "menu"
 
@@ -39,12 +42,14 @@ def update(delta_time):
     elif left_pressed:
         player_x -= 9
 
-    if player_x == 0:
-        player_x += 7
-    elif player_x == WIDTH:
-        player_x -= 7
-    elif player_y ==50:
-        player_y += 100
+    if player_x <= 0:
+        player_x = 20
+    elif player_x >= WIDTH:
+        player_x = 620
+    elif player_y <= 0:
+        player_y = 50
+    elif player_y >= HEIGHT:
+        player_y = 460
 
 def on_draw():
     arcade.start_render()
@@ -52,13 +57,13 @@ def on_draw():
     if current_screen == "menu":
         global button1, button2, button3, fish_count
         arcade.draw_rectangle_filled(button1[0], button1[1], button1[2], button1[3], button1[4])
-        arcade.draw_text("Start", WIDTH / 2 - 30, HEIGHT / 2 - 10, arcade.color.BLACK, 18)
+        arcade.draw_text("Start", WIDTH / 2 - 25, HEIGHT / 2 - 10, arcade.color.BLACK, 18)
 
         arcade.draw_rectangle_filled(button2[0], button2[1], button2[2], button2[3], button2[4])
-        arcade.draw_text("Instructions", WIDTH / 2 - 70, HEIGHT / 2 - 110, arcade.color.BLACK, 18)
+        arcade.draw_text("Instructions", WIDTH / 2 - 52, HEIGHT / 2 - 110, arcade.color.BLACK, 18)
 
         arcade.draw_rectangle_filled(button3[0], button3[1], button3[2], button3[3], button3[4])
-        arcade.draw_text("High Score:", WIDTH / 2 - 66, HEIGHT / 2 + 100, arcade.color.BLACK, 18)
+        arcade.draw_text("High Score:", WIDTH / 2 - 52, HEIGHT / 2 + 100, arcade.color.BLACK, 18)
 
         arcade.draw_text(highscore, WIDTH / 2 - 25, HEIGHT / 2 + 70, arcade.color.BLACK, 18)
 
@@ -74,7 +79,12 @@ def on_draw():
 
         fish.center_x = player_x
         fish.center_y = player_y
+        for i in range(fish_count):
+            enemyfish.center_x = random.randrange(0,WIDTH)
+            enemyfish.center_y = 
+
         playerlist.append(fish)
+        playerlist.append(enemyfish)
         playerlist.draw()
 
 
@@ -105,7 +115,7 @@ def on_key_release(key, modifiers):
 
 def on_mouse_press(x, y, button, modifiers):
     global current_screen, button1, buttonwidth, buttonheight
-    if x > button1[0] - buttonheight/2 and x < button1[0] + buttonheight/2 and y > button1[1] - buttonwidth/2 and y < button1[1] + buttonwidth/2:
+    if x > button1[0] - buttonwidth/2 and x < button1[0] + buttonwidth/2 and y > button1[1] - buttonheight/2 and y < button1[1] + buttonheight/2:
         current_screen = "game"
         print("hi")
     if x > 0 and x < 65 and y > 445 and y < 460:
