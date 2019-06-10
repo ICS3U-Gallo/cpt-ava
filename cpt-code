@@ -8,13 +8,12 @@ player_y = 100
 player_speed = 10
 background_x = 320
 background_y =  240
+enemy_size = 0.1
+player_size = 0.1
 
-fish = arcade.Sprite("images/fish.png", 0.1)
-enemyfish = arcade.Sprite("images/enemyfish.png", 0.1)
+fish = arcade.Sprite("images/fish.png", player_size)
 background = arcade.Sprite("images/background.png", 1.95)
 
-playerlist = None
-enemylist = None
 current_screen = "menu"
 
 buttonheight = 150
@@ -36,11 +35,14 @@ right_pressed = False
 left_pressed = False
 
 playerlist = arcade.SpriteList()
+playerlist.append(fish)
 enemylist = arcade.SpriteList()
 backgroundlist = arcade.SpriteList()
 
 def update(delta_time):
     global player_y, player_x, down_pressed, up_pressed, player_speed
+
+    # TODO: change player_x to fish.center_x, same with y values
     if up_pressed:
         player_y += player_speed
     elif down_pressed:
@@ -58,6 +60,27 @@ def update(delta_time):
         player_y = 50
     elif player_y >= HEIGHT:
         player_y = 460
+
+    if len(enemylist) < fish_count:
+        enemy_multiply = random.randrange(5, 15)
+        enemy_size = player_size*enemy_multiply/10
+        enemyfish = arcade.Sprite("images/enemyfish.png", enemy_size)
+        enemyfish.center_x = random.randrange(0 , WIDTH)
+        enemyfish.center_y = random.randrange(50, HEIGHT)
+        enemyfish.change_x = random.randrange(-2, 2)
+        enemyfish.change_y = random.randrange(-2, 2)
+        enemylist.append(enemyfish)
+
+
+    # TODO: change the name of fish to enemy_fish
+    for fish in enemylist:
+        if fish.left > WIDTH or fish.right < 0 or fish.bottom > HEIGHT or fish.top < 0:
+            fish.kill()
+
+
+    enemylist.update()
+
+    # if arcade.check_for_collision_with_list(fish)
 
 def on_draw():
     arcade.start_render()
@@ -90,19 +113,8 @@ def on_draw():
 
         arcade.draw_text("Menu", 10, 455, arcade.color.GRAY_BLUE, 12)
 
-        fish.center_x = player_x
-        fish.center_y = player_y
-        playerlist.append(fish)
-
-        for i in range(fish_count):
-            enemyfish.center_x = random.randrange(0,WIDTH)
-            enemyfish.center_y = random.randrange(50, HEIGHT)
-
-        enemylist.append(enemyfish)
         playerlist.draw()
-
-        for i in range(fish_count):
-            enemylist.draw()
+        enemylist.draw()
 
     elif current_screen == "instructions":
         background.center_x = background_x
@@ -160,6 +172,7 @@ def setup():
     window.on_mouse_press = on_mouse_press
 
     arcade.run()
+
 
 
 if __name__ == '__main__':
