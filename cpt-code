@@ -10,6 +10,7 @@ background_x = 320
 background_y = 240
 enemy_size = 0.1
 player_size = 0.1
+score = 0
 
 fish = arcade.Sprite("images/fish.png", player_size)
 background = arcade.Sprite("images/background.png", 1.95)
@@ -26,7 +27,7 @@ button3 = [WIDTH / 2, HEIGHT / 2 + 100, button_height, button_width, button_colo
 
 highscore = "300"
 
-fish_count = 10
+fish_count = 5
 
 # controls
 up_pressed = False
@@ -40,7 +41,7 @@ enemy_list = arcade.SpriteList()
 background_list = arcade.SpriteList()
 
 def update(delta_time):
-    global player_y, player_x, down_pressed, up_pressed, player_speed, fish
+    global player_y, player_x, down_pressed, up_pressed, player_speed, fish, score, current_screen, player_size, enemy_size
 
     # TODO: change player_x to fish.center_x, same with y values
     if up_pressed:
@@ -62,7 +63,7 @@ def update(delta_time):
         fish.center_y = 460
 
     if len(enemy_list) < fish_count:
-        enemy_multiply = random.randrange(5, 15)
+        enemy_multiply = random.randrange(5, 8)
         enemy_size = player_size*enemy_multiply/10
         enemyfish = arcade.Sprite("images/enemyfish.png", enemy_size)
         enemyfish.center_x = random.randrange(0 , WIDTH)
@@ -77,10 +78,9 @@ def update(delta_time):
         if enemyfish.left > WIDTH or enemyfish.right < 0 or enemyfish.bottom > HEIGHT or enemyfish.top < 0:
             enemyfish.kill()
 
-
     enemy_list.update()
 
-    # if arcade.check_for_collision_with_list(fish)
+    collision()
 
 def on_draw():
     arcade.start_render()
@@ -92,29 +92,39 @@ def on_draw():
         background_list.append(background)
         background_list.draw()
 
-
         arcade.draw_rectangle_filled(button1[0], button1[1], button1[2], button1[3], button1[4])
-        arcade.draw_text("Start", WIDTH / 2 - 25, HEIGHT / 2 - 10, arcade.color.BLACK, 18)
+        arcade.draw_text("Start", WIDTH / 2 - 30, HEIGHT / 2 - 10, arcade.color.BLACK, 18)
 
         arcade.draw_rectangle_filled(button2[0], button2[1], button2[2], button2[3], button2[4])
-        arcade.draw_text("Instructions", WIDTH / 2 - 52, HEIGHT / 2 - 110, arcade.color.BLACK, 18)
+        arcade.draw_text("Instructions", WIDTH / 2 - 65, HEIGHT / 2 - 110, arcade.color.BLACK, 18)
 
         arcade.draw_rectangle_filled(button3[0], button3[1], button3[2], button3[3], button3[4])
-        arcade.draw_text("High Score:", WIDTH / 2 - 52, HEIGHT / 2 + 100, arcade.color.BLACK, 18)
+        arcade.draw_text("High Score:", WIDTH / 2 - 65, HEIGHT / 2 + 100, arcade.color.BLACK, 18)
 
         arcade.draw_text(highscore, WIDTH / 2 - 25, HEIGHT / 2 + 70, arcade.color.BLACK, 18)
 
     elif current_screen == "game":
-        arcade.draw_xywh_rectangle_filled(0, 0, 640, 480, arcade.color.SKY_BLUE)
+        arcade.draw_xywh_rectangle_filled(0, 0, WIDTH, HEIGHT, arcade.color.SKY_BLUE)
 
-        arcade.draw_xywh_rectangle_filled(0, 0, 640, 50, arcade.color.LIGHT_BROWN)
+        arcade.draw_xywh_rectangle_filled(0, 0, WIDTH, 50, arcade.color.LIGHT_BROWN)
 
         arcade.draw_xywh_rectangle_filled(0,HEIGHT - 35, 65, 35, arcade.color.BLACK)
 
-        arcade.draw_text("Menu", 10, 455, arcade.color.GRAY_BLUE, 12)
+        arcade.draw_text("Menu", WIDTH - 630, HEIGHT - 20, arcade.color.GRAY_BLUE, 12)
+
+        arcade.draw_text(f"Score: {score}", WIDTH - 100, HEIGHT - 20, arcade.color.BLACK, 12)
 
         player_list.draw()
         enemy_list.draw()
+
+    elif current_screen == "GAME OVER":
+        arcade.draw_xywh_rectangle_filled(0, 0, WIDTH, HEIGHT, arcade.color.SKY_BLUE)
+
+        arcade.draw_text("GAME OVER", WIDTH/2 - 250, HEIGHT/2 - 30, arcade.color.BLACK, 60)
+
+        arcade.draw_xywh_rectangle_filled(0,HEIGHT - 35, 65, 35, arcade.color.BLACK)
+
+        arcade.draw_text("Menu", WIDTH - 630, HEIGHT - 20, arcade.color.GRAY_BLUE, 12)
 
     elif current_screen == "instructions":
         background.center_x = background_x
@@ -122,7 +132,16 @@ def on_draw():
         background_list.append(background)
         background_list.draw()
 
-        arcade.draw_text("Fish Eat Fish", WIDTH/2, HEIGHT - 50, arcade.color.BLACK)
+        arcade.draw_xywh_rectangle_filled(0,HEIGHT - 35, 65, 35, arcade.color.BLACK)
+
+        arcade.draw_text("Menu", WIDTH - 630, HEIGHT - 20, arcade.color.GRAY_BLUE, 12)
+
+        arcade.draw_text("Fish Eat Fish", WIDTH/2 - 120, HEIGHT - 50, arcade.color.BLACK, 30)
+        arcade.draw_text("1. Use the arrow keys to move the player fish up, down, left and right", WIDTH/2 - 300, HEIGHT - 100, arcade.color.BLACK, 13)
+        arcade.draw_text("2. Eat fish of smaller or equivalent size and increase in size", WIDTH / 2 - 300, HEIGHT - 130, arcade.color.BLACK, 13)
+        arcade.draw_text("3. If you try to eat fish larger than the player fish, GAME OVER.", WIDTH / 2 - 300, HEIGHT - 160, arcade.color.BLACK, 13)
+        arcade.draw_text("4. The goal is to be the largest fish in the ocean.", WIDTH / 2 - 300, HEIGHT - 190, arcade.color.BLACK, 13)
+        arcade.draw_text("5. Enjoy and just keep swimming!", WIDTH / 2 - 300, HEIGHT - 220, arcade.color.BLACK, 13)
 
 def on_key_press(key, modifiers):
     global up_pressed, down_pressed, right_pressed, left_pressed
@@ -173,7 +192,15 @@ def setup():
 
     arcade.run()
 
-
+def collision():
+    global score, current_screen
+    # if arcade.check_for_collision_with_list(fish)
+    for enemy in arcade.check_for_collision_with_list(fish, enemy_list):
+        if fish.width >= enemy.width:
+            score += 1
+            enemy_list.remove(enemy)
+        elif fish.width < enemy.width:
+            current_screen = "GAME OVER"
 
 if __name__ == '__main__':
     setup()
