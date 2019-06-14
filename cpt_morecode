@@ -255,7 +255,7 @@ def enemy_produced():
         enemy_fish.center_y = random.randrange(50, HEIGHT)
         enemy_fish.change_x = random.randrange(-2, 2)
         enemy_fish.change_y = random.randrange(-2, 2)
-
+#use pythagereon the to find distance from player and only append if far enough
         big_fish_list.append(enemy_fish)
     # small fish spawn
 
@@ -268,7 +268,6 @@ def enemy_produced():
         enemy_fish.center_y = random.randrange(50, HEIGHT)
         enemy_fish.change_x = random.randrange(-2, 2)
         enemy_fish.change_y = random.randrange(-2, 2)
-
         small_fish_list.append(enemy_fish)
 
 def enemy_leaves():
