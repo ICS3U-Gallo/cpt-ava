@@ -76,7 +76,6 @@ left_pressed = False
 
 def update(delta_time):
 
-    
     player()
 
     enemy_produced()
