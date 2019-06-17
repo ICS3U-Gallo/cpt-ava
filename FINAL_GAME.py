@@ -100,6 +100,7 @@ def on_draw():
     # menu screen
 
     if current_screen == "menu":
+
         global button1, button2, button3, fish_count, background
 
         background_list.draw()
@@ -125,6 +126,7 @@ def on_draw():
     # game screen
 
     if current_screen == "game":
+
         arcade.draw_xywh_rectangle_filled(0, 0, WIDTH, HEIGHT,
                                           arcade.color.SKY_BLUE)
 
@@ -144,11 +146,13 @@ def on_draw():
         player_list.draw()
 
         big_fish_list.draw()
+
         small_fish_list.draw()
 
     # game over screen
 
     if current_screen == "GAME OVER":
+
         arcade.draw_xywh_rectangle_filled(0, 0, WIDTH, HEIGHT,
                                           arcade.color.SKY_BLUE)
 
@@ -164,6 +168,7 @@ def on_draw():
     # instructions screen
 
     if current_screen == "instructions":
+
         background_list.draw()
 
         arcade.draw_xywh_rectangle_filled(0, HEIGHT - 35, 65, 35,
@@ -194,6 +199,7 @@ def on_draw():
 # key press of arrow keys
 
 def on_key_press(key, modifiers):
+
     global up_pressed, down_pressed, right_pressed, left_pressed
 
     if key == arcade.key.UP:
@@ -209,6 +215,7 @@ def on_key_press(key, modifiers):
 # key release after arrow keys are pressed
 
 def on_key_release(key, modifiers):
+
     global up_pressed, down_pressed, right_pressed, left_pressed
 
     if up_pressed:
@@ -226,6 +233,7 @@ def on_key_release(key, modifiers):
 # clicking of buttons
 
 def on_mouse_press(x, y, button, modifiers):
+
     global current_screen, button1, button_width, button_height, menubutton
 
     if ((x > button1[0] - button_width / 2) and
@@ -263,6 +271,7 @@ def setup():
 # movement and speed of player fish using arrow keys
 
 def player():
+
     global down_pressed, up_pressed, player_speed, fish, score, current_screen
     global player_scale, enemy_scale
 
@@ -288,6 +297,7 @@ def player():
 # enemy fish spawning
 
 def enemy_produced():
+
     global enemy_scale
 
     try:
@@ -324,6 +334,7 @@ def enemy_produced():
     # small fish spawn
 
     if len(small_fish_list) < small_fish_count:
+
         enemy_multiply = random.randrange(4, 7)
         enemy_scale = player_scale * enemy_multiply / 10
 
@@ -337,6 +348,7 @@ def enemy_produced():
 # if enemy leaves screen, destroyed
 
 def enemy_leaves():
+
     for enemy_fish in big_fish_list:
 
         if (enemy_fish.left > WIDTH or
