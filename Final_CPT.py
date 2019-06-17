@@ -74,10 +74,11 @@ down_pressed = False
 right_pressed = False
 left_pressed = False
 
-
 # update
 
+
 def update(delta_time):
+
     player()
 
     enemy_produced()
