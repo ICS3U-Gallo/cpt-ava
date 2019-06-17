@@ -58,10 +58,10 @@ menubutton = [0, HEIGHT - 35, 65, 35]
 background_list = arcade.SpriteList()
 
 try:
-    background = arcade.Sprite("Images/background.png", 1.95)
+    background = arcade.Sprite("Images/background.png", 0.8)
 except:
     # image path on my computer at home
-    background = arcade.Sprite("venv/Images/background.png", 1.95)
+    background = arcade.Sprite("venv/Images/background.png", 0.8)
 
 background.center_x = 320
 background.center_y = 240
