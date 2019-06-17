@@ -46,9 +46,9 @@ button_height = 150
 button_width = 75
 button_colour = arcade.color.LIGHT_CORAL
 
-button1 = [WIDTH / 2, HEIGHT / 2, button_height, button_width, button_colour]
-button2 = [WIDTH / 2, HEIGHT / 2 - 100, button_height, button_width, button_colour]
-button3 = [WIDTH / 2, HEIGHT / 2 + 100, button_height, button_width, button_colour]
+button1 = [WIDTH/2, HEIGHT/2, button_height, button_width, button_colour]
+button2 = [WIDTH/2, HEIGHT/2 - 100, button_height, button_width, button_colour]
+button3 = [WIDTH/2, HEIGHT/2 + 100, button_height, button_width, button_colour]
 menubutton = [0, HEIGHT - 35, 65, 35]
 
 # background - ocean
