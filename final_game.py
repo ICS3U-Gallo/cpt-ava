@@ -175,14 +175,16 @@ def on_draw():
         arcade.draw_text("Fish Eat Fish", WIDTH / 2 - 120, HEIGHT - 50,
                          arcade.color.BLACK, 30)
 
-        arcade.draw_text("1. Use the arrow keys to move the player fish
-                         up, down, left and right",
-                         WIDTH / 2 - 300, HEIGHT - 100, arcade.color.BLACK, 13)
+        arcade.draw_text(
+            "1. Use the arrow keys to move " +
+            "the player fish up, down, left and right",
+            WIDTH / 2 - 300, HEIGHT - 100, arcade.color.BLACK, 13)
         arcade.draw_text("2. Eat fish of smaller size and increase in size",
                          WIDTH / 2 - 300, HEIGHT - 130, arcade.color.BLACK, 13)
-        arcade.draw_text("3. If you try to eat fish larger than the
-                         player fish, GAME OVER.", WIDTH / 2 - 300,
-                         HEIGHT - 160, arcade.color.BLACK, 13)
+        arcade.draw_text(
+            "3. If you try to eat fish larger than " +
+            "the player fish, GAME OVER.", WIDTH / 2 - 300,
+            HEIGHT - 160, arcade.color.BLACK, 13)
         arcade.draw_text("4. The goal is to be the largest fish in the ocean.",
                          WIDTH / 2 - 300, HEIGHT - 190, arcade.color.BLACK, 13)
         arcade.draw_text("5. Enjoy and just keep swimming!",
@@ -226,19 +228,21 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global current_screen, button1, button_width, button_height, menubutton
 
-    if x > button1[0] - button_width / 2 and x < button1[0] + button_width / 2
-    and y > button1[1] - button_height / 2
-    and y < button1[1] + button_height / 2:
-        current_screen = "game"
+    if ((x > button1[0] - button_width / 2) and
+        (x < button1[0] + button_width / 2) and
+        (y > button1[1] - button_height / 2) and
+            (y < button1[1] + button_height / 2)):
+            current_screen = "game"
 
-    if x > button2[1] - button_width / 2 and x < button2[0] + button_width / 2
-    and y > button2[1] - button_height / 2
-    and y < button2[1] + button_height / 2:
-        current_screen = "instructions"
+    if ((x > button2[1] - button_width / 2) and
+            (x < button2[0] + button_width / 2) and
+            (y > button2[1] - button_height / 2) and
+            (y < button2[1] + button_height / 2)):
+                current_screen = "instructions"
 
-    if x > menubutton[0] and x < menubutton[0] + menubutton[2]
-    and y > menubutton[1] and y < menubutton[1] + menubutton[3]:
-        current_screen = "menu"
+    if (x > menubutton[0] and x < menubutton[0] + menubutton[2] and
+            y > menubutton[1] and y < menubutton[1] + menubutton[3]):
+                current_screen = "menu"
 
 
 def setup():
@@ -259,8 +263,8 @@ def setup():
 # movement and speed of player fish using arrow keys
 
 def player():
-    global down_pressed, up_pressed, player_speed, fish, score, current_screen,
-    player_scale, enemy_scale
+    global down_pressed, up_pressed, player_speed, fish, score, current_screen
+    global player_scale, enemy_scale
 
     if up_pressed:
         fish.center_y += player_speed
@@ -335,18 +339,18 @@ def enemy_produced():
 def enemy_leaves():
     for enemy_fish in big_fish_list:
 
-        if enemy_fish.left > WIDTH or
-        enemy_fish.right < 0 or
-        enemy_fish.bottom > HEIGHT or
-        enemy_fish.top < 0:
-            enemy_fish.kill()
+        if (enemy_fish.left > WIDTH or
+                enemy_fish.right < 0 or
+                enemy_fish.bottom > HEIGHT or
+                enemy_fish.top < 0):
+                    enemy_fish.kill()
 
     for enemy_fish in small_fish_list:
 
-        if enemy_fish.left > WIDTH or
-        enemy_fish.right < 0 or
-        enemy_fish.bottom > HEIGHT or
-        enemy_fish.top < 0:
+        if (enemy_fish.left > WIDTH or
+           enemy_fish.right < 0 or
+           enemy_fish.bottom > HEIGHT or
+           enemy_fish.top < 0):
             enemy_fish.kill()
 
 
