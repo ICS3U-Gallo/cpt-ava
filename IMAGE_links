@@ -2,24 +2,14 @@
 '''
 # fish
 
-try:
-    # image at school
-    fish = arcade.Sprite("images/fish.png", player_scale)
-except:
-    # image path on my computer at home
-    fish = arcade.Sprite("venv/Images/fish.png", player_scale)
+fish = arcade.Sprite("images/fish.png", player_scale)
 
 https://www.google.com/search?q=fish+cartoon+png&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjp-4_Csu_iAhVnh-AKHQsYBjcQ_AUIECgB&biw=1536&bih=722&safe=active&ssui=on#imgrc=TbYSmg7OH0hPqM:
 '''
 '''
 # background
 
-try:
-    # image at school
-    background = arcade.Sprite("Images/background.png", 0.8)
-except:
-    # image path on my computer at home
-    background = arcade.Sprite("venv/Images/background.png", 0.8)
+background = arcade.Sprite("images/background.png", 0.8)
 
 https://www.google.com/search?biw=1536&bih=722&tbm=isch&sa=1&ei=k_EGXZTVDMG7tgWFuqfgCA&q=fish+game+ocean+background+cartoon+png&oq=fish+game+ocean+background+cartoon+png&gs_l=img.3...5094.7905..8167...0.0..0.264.1894.0j8j2......0....1..gws-wiz-img.Ovqe17K4HvQ&safe=active&ssui=on#imgrc=GDNSJnvhi3K7hM:
 '''
@@ -28,10 +18,5 @@ https://www.google.com/search?biw=1536&bih=722&tbm=isch&sa=1&ei=k_EGXZTVDMG7tgWF
 
 https://www.google.com/search?biw=1536&bih=722&tbm=isch&sa=1&ei=UfIGXcSYK4TYsAW1h4ToAw&q=fish+png+cartoon&oq=fish+png+cartoon&gs_l=img.3...0.0..23776...0.0..0.0.0.......0......gws-wiz-img.JAz1wO5gTSs&safe=active&ssui=on#imgrc=3u3OM2tLF7ZtIM:
 
-try:
-    # image at school
-    enemy_fish = arcade.Sprite("images/enemyfish.png", enemy_scale) 
-except:
-    # image path on my computer at home
-    enemy_fish = arcade.Sprite("venv/Images/enemyfish.png", enemy_scale)
+enemy_fish = arcade.Sprite("images/enemyfish.png", enemy_scale)
 '''
